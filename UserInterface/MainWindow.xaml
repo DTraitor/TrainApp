@@ -1,0 +1,84 @@
+﻿<Window x:Class="UserInterface.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:UserInterface"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Margin="3">
+        <TabControl>
+            <TabItem Header="Trains">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="150" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Border
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        CornerRadius="3"
+                        BorderBrush="Gray"
+                        Background="LightGray"
+                        Margin="5,5,5,3"
+                        BorderThickness="1.5">
+                        <ScrollViewer>
+                            <Grid x:Name="TrainsList" Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10*" /> <!-- Name -->
+                                    <ColumnDefinition Width="7*" /> <!-- Edit carriages -->
+                                    <ColumnDefinition Width="7*" /> <!-- Edit schedule -->
+                                    <ColumnDefinition Width="10*" /> <!-- Start date -->
+                                    <ColumnDefinition Width="10*" /> <!-- End date -->
+                                    <ColumnDefinition Width="10*" /> <!-- Add new reservation -->
+                                    <ColumnDefinition Width="6*" /> <!-- Delete -->
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="25" />
+                                </Grid.RowDefinitions>
+                                <TextBox Grid.Column="0">ICE-999</TextBox>
+                                <Button Grid.Column="1" Margin="2,0,2,0">Carriages</Button>
+                                <Button Grid.Column="2" >Schedule</Button>
+                                <DatePicker Grid.Column="3" Margin="2,0,2,0" />
+                                <DatePicker Grid.Column="4" />
+                                <Button Grid.Column="5" Margin="2,0,2,0">Add Reservation</Button>
+                                <Button Grid.Column="6">Delete</Button>
+                            </Grid>
+                        </ScrollViewer>
+                    </Border>
+                    <Grid Grid.Row="1" Grid.Column="0" Margin="5,5,5,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10*" />
+                            <ColumnDefinition Width="5*" />
+                            <ColumnDefinition Width="5*" />
+                            <ColumnDefinition Width="7*" />
+                            <ColumnDefinition Width="7*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" x:Name="NewTrainName">Name</TextBox>
+                        <Button Grid.Column="1" Margin="2,0">Carriages</Button>
+                        <Button Grid.Column="2">Schedule</Button>
+                        <DatePicker Grid.Column="3" x:Name="NewTrainStartDate" Margin="2,0" />
+                        <DatePicker Grid.Column="4" x:Name="NewTrainEndDate" />
+                    </Grid>
+                    <Button Grid.Column="1" Grid.Row="1" Click="AddNewTrain">Add</Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Reservations">
+                <Grid x:Name="ReservationsList">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
