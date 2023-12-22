@@ -2,7 +2,7 @@
 
 namespace DataAccess;
 
-public class DatabaseReadWriter<T> : IDisposable
+public class DatabaseReadWriter<T> : IDisposable where T : new()
 {
     public DatabaseReadWriter(string file)
     {
@@ -24,7 +24,7 @@ public class DatabaseReadWriter<T> : IDisposable
         }
         catch (JsonException e)
         {
-            return default;
+            return new T();
         }
     }
 

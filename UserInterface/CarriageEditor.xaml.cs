@@ -10,11 +10,11 @@ namespace UserInterface;
 
 public partial class CarriageEditor : Window
 {
-    public CarriageEditor(IEnumerable<Train.Carriage> trainCarriages, OnStationChanged onStationChanged)
+    public CarriageEditor(IEnumerable<Train.Carriage> trainCarriages, OnCarriageChanged onCarriageChanged)
     {
         InitializeComponent();
         carriages = trainCarriages;
-        stationChanged += onStationChanged;
+        carriageChanged += onCarriageChanged;
         UpdateList();
     }
 
@@ -35,7 +35,7 @@ public partial class CarriageEditor : Window
             };
             numberBox.ValueChanged += (sender, args) =>
             {
-                stationChanged.Invoke(carriage.Id, numberBox.Value.Value, carriage.Capacity);
+                carriageChanged.Invoke(carriage.Id, numberBox.Value.Value, carriage.Capacity);
             };
             IntegerUpDown capacityBox = new IntegerUpDown
             {
@@ -45,7 +45,7 @@ public partial class CarriageEditor : Window
             };
             capacityBox.ValueChanged += (sender, args) =>
             {
-                stationChanged.Invoke(carriage.Id, carriage.Number, capacityBox.Value.Value);
+                carriageChanged.Invoke(carriage.Id, carriage.Number, capacityBox.Value.Value);
             };
             TextBlock freeSeats = new TextBlock
             {
@@ -64,7 +64,7 @@ public partial class CarriageEditor : Window
             };
             deleteButton.Click += (sender, args) =>
             {
-                stationChanged.Invoke(carriage.Id, carriage.Number, -1);
+                carriageChanged.Invoke(carriage.Id, carriage.Number, -1);
             };
 
             int row = CarriagesList.RowDefinitions.Count - 1;
@@ -98,11 +98,11 @@ public partial class CarriageEditor : Window
             MessageBox.Show("Please enter a number for the maximum capacity.");
             return;
         }
-        stationChanged.Invoke(Guid.Empty, CarriageNumber.Value.Value, MaxSeats.Value.Value);
+        carriageChanged.Invoke(Guid.Empty, CarriageNumber.Value.Value, MaxSeats.Value.Value);
         UpdateList();
     }
 
-    public delegate void OnStationChanged(Guid id, int carriageNumber, int maxCapacity);
-    private OnStationChanged stationChanged;
+    public delegate void OnCarriageChanged(Guid id, int carriageNumber, int maxCapacity);
+    private OnCarriageChanged carriageChanged;
     private IEnumerable<Train.Carriage> carriages;
 }
