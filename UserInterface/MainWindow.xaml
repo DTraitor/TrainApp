@@ -51,6 +51,7 @@
                             </Grid>
                         </ScrollViewer>
                     </Border>
+                    <TextBox Grid.Row="0" Grid.Column="1" x:Name="SearchBar" TextChanged="OnTextChanged" />
                     <Grid Grid.Row="1" Grid.Column="0" Margin="5,5,5,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="10*" />

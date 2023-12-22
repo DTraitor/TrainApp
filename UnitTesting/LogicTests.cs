@@ -17,13 +17,13 @@ public class LogicTests
     {
         using LogicHandler logicHandler = new(filename);
         logicHandler.AddNewTrain("Test Train", new List<Train.Station>(), new List<Train.Carriage>(), DateTime.Now, DateTime.Now);
-        Assert.That(logicHandler.GetTrains().Count(), Is.EqualTo(1));
-        Train train = logicHandler.GetTrains().First();
+        Assert.That(logicHandler.GetTrains("").Count(), Is.EqualTo(1));
+        Train train = logicHandler.GetTrains("").First();
         DateTime startDate = train.StartDate;
         DateTime endDate = train.EndDate;
         logicHandler.TrainCarriageChanged(train.Id, Guid.Empty, 1, 20);
         Assert.That(train.Carriages.Count, Is.EqualTo(1));
-        logicHandler.TrainCarriageChanged(logicHandler.GetTrains().First().Id, logicHandler.GetTrains().First().Carriages.First().Id, 1, -1);
+        logicHandler.TrainCarriageChanged(logicHandler.GetTrains("").First().Id, logicHandler.GetTrains("").First().Carriages.First().Id, 1, -1);
         Assert.That(train.Carriages.Count, Is.EqualTo(0));
         logicHandler.TrainStationChanged(train.Id, Guid.Empty, "Test Station", DateTime.Now);
         Assert.That(train.Schedule.Count, Is.EqualTo(1));
@@ -42,7 +42,7 @@ public class LogicTests
         logicHandler.DeleteReservation(reservation.Id);
         Assert.That(logicHandler.GetReservations().Count(), Is.EqualTo(0));
         logicHandler.DeleteTrain(train.Id);
-        Assert.That(logicHandler.GetTrains().Count(), Is.EqualTo(0));
+        Assert.That(logicHandler.GetTrains("").Count(), Is.EqualTo(0));
 
     }
 }

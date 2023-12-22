@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using DataAccess;
+﻿using DataAccess;
 
 namespace BusinessLogic;
 
@@ -27,9 +26,9 @@ public class LogicHandler : IDisposable
         });
     }
 
-    public IEnumerable<Train> GetTrains()
+    public IEnumerable<Train> GetTrains(string name)
     {
-        return trains;
+        return trains.Where(t => t.Name.Contains(name));
     }
 
     public void ChangeTrainName(Guid id, string name)
@@ -121,7 +120,7 @@ public class LogicHandler : IDisposable
             if (carriage == null)
                 throw new ArgumentException("Carriage not found");
             if (carriage.Reserved > 0 && capacity < carriage.Reserved)
-                throw new ArgumentException("Capacity cannot be less than reserved seats");
+                throw new ApplicationException("Capacity cannot be less than reserved seats");
             if (capacity == -1)
             {
                 if (carriage.Reserved > 0)
@@ -178,7 +177,7 @@ public class LogicHandler : IDisposable
         Reservation? reservation = reservations.FirstOrDefault(r => r.Id == reservationId);
         if (reservation == null)
             throw new ArgumentException("Reservation not found");
-        if (seats > reservation.ReservedSeats[carriageId] + GetFreeSeats(reservation.TrainId, carriageId))
+        if (reservation.ReservedSeats.ContainsKey(carriageId) && seats > reservation.ReservedSeats[carriageId] + GetFreeSeats(reservation.TrainId, carriageId))
             throw new ArgumentException("Cannot reserve more seats than available");
         Train? train = trains.FirstOrDefault(t => t.Id == reservation.TrainId);
         if (train == null)
@@ -186,7 +185,8 @@ public class LogicHandler : IDisposable
         Train.Carriage? carriage = train.Carriages.FirstOrDefault(c => c.Id == carriageId);
         if (carriage == null)
             throw new ArgumentException("Carriage not found");
-        carriage.Reserved -= reservation.ReservedSeats[carriageId];
+        if (reservation.ReservedSeats.ContainsKey(carriageId))
+            carriage.Reserved -= reservation.ReservedSeats[carriageId];
         carriage.Reserved += seats;
         reservation.ReservedSeats[carriageId] = seats;
         SaveChanges();

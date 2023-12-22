@@ -23,7 +23,7 @@ public partial class ReservationsWindow : Window
     {
         CarriagesList.Children.Clear();
         CarriagesList.RowDefinitions.Clear();
-        foreach (KeyValuePair<Guid, int> pair in reservation.ReservedSeats)
+        foreach (Train.Carriage carriage in logicHandler.GetTrain(reservation.TrainId).Carriages)
         {
             CarriagesList.RowDefinitions.Add(new RowDefinition()
             {
@@ -31,24 +31,24 @@ public partial class ReservationsWindow : Window
             });
             TextBlock carriageNumber = new TextBlock
             {
-                Text = "Carriage #" + pair.Key,
+                Text = "Carriage #" + carriage.Number,
                 VerticalAlignment = VerticalAlignment.Center,
             };
             TextBlock seatsNumber = new TextBlock
             {
-                Text = "Free: " + logicHandler.GetFreeSeats(reservation.TrainId, pair.Key),
+                Text = "Free: " + logicHandler.GetFreeSeats(reservation.TrainId, carriage.Id),
                 VerticalAlignment = VerticalAlignment.Center,
             };
             IntegerUpDown seatsCount = new IntegerUpDown
             {
-                Value = pair.Value,
+                Value = carriage.Reserved,
                 Minimum = 0,
-                Maximum = logicHandler.GetFreeSeats(reservation.TrainId, pair.Key) + pair.Value,
+                Maximum = logicHandler.GetFreeSeats(reservation.TrainId, carriage.Id) + carriage.Reserved,
             };
             seatsCount.ValueChanged += (sender, args) =>
             {
-                logicHandler.ChangeReservationSeats(reservation.Id, pair.Key, seatsCount.Value.Value);
-                seatsNumber.Text = "Free: " + logicHandler.GetFreeSeats(reservation.TrainId, pair.Key);
+                logicHandler.ChangeReservationSeats(reservation.Id, carriage.Id, seatsCount.Value.Value);
+                seatsNumber.Text = "Free: " + logicHandler.GetFreeSeats(reservation.TrainId, carriage.Id);
             };
             int row = CarriagesList.RowDefinitions.Count - 1;
             Grid.SetRow(carriageNumber, row);

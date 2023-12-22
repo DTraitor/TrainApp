@@ -89,7 +89,7 @@ namespace UserInterface
         {
             TrainsList.Children.Clear();
             TrainsList.RowDefinitions.Clear();
-            foreach (Train train in logicHandler.GetTrains())
+            foreach (Train train in logicHandler.GetTrains(SearchBar.Text))
             {
                 TrainsList.RowDefinitions.Add(new RowDefinition() {Height = GridLength.Auto});
                 TextBox nameBox = new TextBox
@@ -264,5 +264,10 @@ namespace UserInterface
         private List<Train.Carriage> carriages = new();
         private List<Train.Station> stations = new();
         private LogicHandler logicHandler = new LogicHandler();
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateTrainsList();
+        }
     }
 }
